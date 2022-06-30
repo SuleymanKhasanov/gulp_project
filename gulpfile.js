@@ -1,66 +1,25 @@
-const { src, dest, watch, series, parallel } = require("gulp");
+const { watch, series, parallel } = require("gulp");
+
+const path = require("./config/path.js");
 
 const browserSync = require("browser-sync").create();
 
-const del = require("del");
+const clear = require("./tusk/clear.js");
 
-const plumber = require("gulp-plumber");
-
-const notify = require("gulp-notify");
-
-const gulpInclude = require("gulp-file-include");
-
-const gulpHtmlMin = require("gulp-htmlmin");
-
-const pugs = require("gulp-pug");
-
-
-// const html = () => {
-//    return src("./src/html/*.html")
-//       .pipe(plumber({
-//          errorHandler: notify.onError(error => ({
-//             title: "HTML",
-//             message: error.message
-
-//          }))
-//       }))
-//       .pipe(gulpInclude())
-//       .pipe(gulpHtmlMin({
-//          collapseWhitespace: true
-//       }))
-//       .pipe(dest("./public"))
-//       .pipe(browserSync.stream());
-// };
-
-const pug = () => {
-   return src("./src/pug/**/*.pug")
-      .pipe(plumber({
-         errorHandler: notify.onError(error => ({
-            title: "PUG",
-            message: error.message
-
-         }))
-      }))
-      .pipe(pugs())
-      .pipe(dest("./public"))
-      .pipe(browserSync.stream());
-};
+const pug = require("./tusk/pug.js");
 
 
 const server = () => {
    browserSync.init({
       server: {
-         baseDir: "./public/"
+         baseDir: path.root
       }
    });
 };
 
-const clear = () => {
-   return del("./public/");
-}
 
 const watcher = () => {
-   watch("./src/pug/**/*.pug", pug);
+   watch(path.pug.watch, pug).on("all", browserSync.reload);
 };
 
 module.exports.pug = pug;
