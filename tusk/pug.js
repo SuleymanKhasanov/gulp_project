@@ -6,6 +6,8 @@ const notify = require("gulp-notify");
 
 const pugs = require("gulp-pug");
 
+const webpHtml = require("gulp-webp-html");
+
 
 
 const pug = () => {
@@ -18,6 +20,7 @@ const pug = () => {
          }))
       }))
       .pipe(pugs())
+      .pipe(webpHtml())
       .pipe(dest("./public"));
 };
 

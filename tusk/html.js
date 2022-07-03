@@ -10,6 +10,8 @@ const gulpInclude = require("gulp-file-include");
 
 const gulpHtmlMin = require("gulp-htmlmin");
 
+const webpHtml = require("gulp-webp-html");
+
 
 
 const html = () => {
@@ -22,6 +24,7 @@ const html = () => {
          }))
       }))
       .pipe(gulpInclude())
+      .pipe(webpHtml())
       .pipe(gulpHtmlMin({
          collapseWhitespace: true
       }))

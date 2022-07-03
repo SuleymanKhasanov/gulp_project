@@ -12,6 +12,9 @@ const scss = require("./tusk/scss.js");
 
 const js = require("./tusk/js.js");
 
+const img = require("./tusk/img.js");
+
+
 
 const server = () => {
    browserSync.init({
@@ -26,15 +29,17 @@ const watcher = () => {
    watch(path.pug.watch, pug).on("all", browserSync.reload);
    watch(path.scss.watch, scss).on("all", browserSync.reload);
    watch(path.js.watch, js).on("all", browserSync.reload);
+   watch(path.img.watch, img).on("all", browserSync.reload);
 };
 
 module.exports.pug = pug;
 module.exports.scss = scss;
 module.exports.js = js;
+module.exports.img = img;
 module.exports.watch = watcher;
 
 module.exports.dev = series(
    clear,
-   parallel(pug, scss, js),
+   parallel(pug, scss, js, img),
    parallel(watcher, server)
 );
