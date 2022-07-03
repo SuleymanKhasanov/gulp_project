@@ -8,7 +8,7 @@ const clear = require("./tusk/clear.js");
 
 const pug = require("./tusk/pug.js");
 
-const css = require("./tusk/css.js");
+const scss = require("./tusk/scss.js");
 
 
 const server = () => {
@@ -22,15 +22,15 @@ const server = () => {
 
 const watcher = () => {
    watch(path.pug.watch, pug).on("all", browserSync.reload);
-   watch(path.css.watch, css).on("all", browserSync.reload);
+   watch(path.scss.watch, scss).on("all", browserSync.reload);
 };
 
 module.exports.pug = pug;
-module.exports.css = css;
+module.exports.scss = scss;
 module.exports.watch = watcher;
 
 module.exports.dev = series(
    clear,
-   parallel(pug, css),
+   parallel(pug, scss),
    parallel(watcher, server)
 );

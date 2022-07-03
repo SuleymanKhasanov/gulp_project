@@ -6,3 +6,12 @@ body{
    font-size: 22px;
    font-family: "Roboto", sans-serif;
 }
+
+@media (max-width: 700px) {
+   body{
+      color: azure;
+      background-color: black;
+   }
+}
+
+@import "./title.css";
