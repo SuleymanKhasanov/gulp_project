@@ -2,6 +2,8 @@ const { watch, series, parallel } = require("gulp");
 
 const path = require("./config/path.js");
 
+const app = require("./config/app.js");
+
 const browserSync = require("browser-sync").create();
 
 const clear = require("./tusk/clear.js");
@@ -13,6 +15,8 @@ const scss = require("./tusk/scss.js");
 const js = require("./tusk/js.js");
 
 const img = require("./tusk/img.js");
+
+const font = require("./tusk/font.js");
 
 
 
@@ -30,16 +34,26 @@ const watcher = () => {
    watch(path.scss.watch, scss).on("all", browserSync.reload);
    watch(path.js.watch, js).on("all", browserSync.reload);
    watch(path.img.watch, img).on("all", browserSync.reload);
+   watch(path.font.watch, font).on("all", browserSync.reload);
 };
+
+const build = series(
+   clear,
+   parallel(pug, scss, js, img, font)
+);
+
+const dev = series(
+   build,
+   parallel(watcher, server)
+);
 
 module.exports.pug = pug;
 module.exports.scss = scss;
 module.exports.js = js;
 module.exports.img = img;
+module.exports.font = font;
 module.exports.watch = watcher;
 
-module.exports.dev = series(
-   clear,
-   parallel(pug, scss, js, img),
-   parallel(watcher, server)
-);
+module.exports.default = app.isProd
+   ? build
+   : dev;

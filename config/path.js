@@ -40,4 +40,10 @@ module.exports = {
       watch: pathSrc + "/img/**/*",
       dest: pathDest + "/img"
    },
+
+   font: {
+      src: pathSrc + "/font/**/*",
+      watch: pathSrc + "/font/**/*",
+      dest: pathDest + "/font"
+   }
 }
